@@ -20,10 +20,18 @@
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.java</depends>
 
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
 
     </extensions>
+    <actions>
+        <action id="com.github.qdexlab.codedex.action.GenerateFieldToEnumAction"
+                class="com.github.qdexlab.codedex.action.GenerateFieldToEnumAction"
+                text="FieldToEnum" description="FieldToEnum">
+            <add-to-group group-id="JavaGenerateGroup1" anchor="after" relative-to-action="GenerateGetterAndSetter"/>
+        </action>
+    </actions>
 </idea-plugin>
