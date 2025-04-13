@@ -4,10 +4,10 @@ import com.intellij.codeInsight.generation.actions.BaseGenerateAction;
 import com.intellij.openapi.project.DumbAware;
 import com.intellij.psi.PsiClass;
 
-public class GenerateFieldToEnumAction extends BaseGenerateAction implements DumbAware {
+public class GenerateEnumConverterAction extends BaseGenerateAction implements DumbAware {
 
-    protected GenerateFieldToEnumAction() {
-        super(new GenerateFieldToEnumHandler());
+    protected GenerateEnumConverterAction() {
+        super(new GenerateEnumConverterHandler());
     }
 
     @Override

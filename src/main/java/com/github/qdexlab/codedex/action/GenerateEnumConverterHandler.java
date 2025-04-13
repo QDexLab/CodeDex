@@ -1,5 +1,6 @@
 package com.github.qdexlab.codedex.action;
 
+import com.github.qdexlab.codedex.utils.PsiTypeUtils;
 import com.intellij.codeInsight.generation.ClassMember;
 import com.intellij.codeInsight.generation.GenerateMembersHandlerBase;
 import com.intellij.codeInsight.generation.GenerationInfo;
@@ -18,11 +19,11 @@ import com.intellij.util.IncorrectOperationException;
 import java.util.ArrayList;
 import java.util.Optional;
 
-public class GenerateFieldToEnumHandler extends GenerateMembersHandlerBase {
+public class GenerateEnumConverterHandler extends GenerateMembersHandlerBase {
 
 
-    public GenerateFieldToEnumHandler() {
-        super("Select Fields to Generate FieldToEnum");
+    public GenerateEnumConverterHandler() {
+        super("Select Fields to Generate Enum Converter");
     }
 
     @Override
@@ -43,28 +44,24 @@ public class GenerateFieldToEnumHandler extends GenerateMembersHandlerBase {
         aClass = Optional.ofNullable(PsiTreeUtil.getParentOfType(psiField, PsiClass.class)).orElse(aClass);
         String className = aClass.getName();
         String filedName = psiField.getName();
+        String fieldType = PsiTypeUtils.getBoxedTypeName(psiField.getType());
         String upperCaseFieldName = StringUtil.toUpperCase(filedName);
-        String lowerCaseFieldName = StringUtil.toLowerCase(filedName);
         String javaBeanFieldName = StringUtil.capitalizeWithJavaBeanConvention(filedName);
 
         PsiElementFactory psiElementFactory = JavaPsiFacade.getInstance(aClass.getProject()).getElementFactory();
-        String fieldBody = FIELD_TEMPLATE.formatted(className, upperCaseFieldName, className, filedName);
+
+        String fieldBody = new StringBuilder("private static final java.util.Map<")
+                .append(fieldType).append(", ").append(className).append("> ")
+                .append(upperCaseFieldName).append("_MAP = java.util.Arrays.stream(")
+                .append(className).append(".values()).collect(java.util.stream.Collectors.toMap(x -> x.")
+                .append(filedName).append(", e -> e));").toString();
         PsiField field = psiElementFactory.createFieldFromText(fieldBody, aClass);
-        String methodBody = METHOD_TEMPLATE.formatted(className, javaBeanFieldName, lowerCaseFieldName, upperCaseFieldName, lowerCaseFieldName);
+
+        String methodBody = new StringBuilder("public static ").append(className).append(" valueOf")
+                .append(javaBeanFieldName).append("(").append(fieldType).append(" ").append(filedName).append(") {")
+                .append("    return ").append(upperCaseFieldName).append("_MAP.get(").append(filedName).append(");}").toString();
         PsiMethod method = psiElementFactory.createMethodFromText(methodBody, aClass);
+
         return new GenerationInfo[]{new PsiGenerationInfo<>(field), new PsiGenerationInfo<>(method)};
     }
-
-    private static final String FIELD_TEMPLATE = """
-            private static final java.util.Map<String, %s> %s_MAP = new java.util.HashMap<>() {{
-                java.util.Arrays.asList(%s.values()).forEach(x -> put(x.%s, x));
-            }};
-            """;
-    private static final String METHOD_TEMPLATE = """
-            public static %s valueOf%s(String %s) {
-                return %s_MAP.get(%s);
-            }
-            """;
-
-
 }

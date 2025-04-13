@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.github.QDexLab"
-version = "0.0.1"
+version = "0.0.2"
 
 repositories {
     maven("https://maven.aliyun.com/repository/public")
@@ -34,6 +34,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("241")
+        untilBuild.set("253.*")
     }
 
     signPlugin {

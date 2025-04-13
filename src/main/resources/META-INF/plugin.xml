@@ -28,9 +28,9 @@
 
     </extensions>
     <actions>
-        <action id="com.github.qdexlab.codedex.action.GenerateFieldToEnumAction"
-                class="com.github.qdexlab.codedex.action.GenerateFieldToEnumAction"
-                text="FieldToEnum" description="FieldToEnum">
+        <action id="com.github.qdexlab.codedex.action.GenerateEnumConverterAction"
+                class="com.github.qdexlab.codedex.action.GenerateEnumConverterAction"
+                text="Enum Converter">
             <add-to-group group-id="JavaGenerateGroup1" anchor="after" relative-to-action="GenerateGetterAndSetter"/>
         </action>
     </actions>
