@@ -33,5 +33,10 @@
                 text="Enum Converter">
             <add-to-group group-id="JavaGenerateGroup1" anchor="after" relative-to-action="GenerateGetterAndSetter"/>
         </action>
+        <action id="com.github.qdexlab.codedex.action.GenerateCopyConstructorAction"
+                class="com.github.qdexlab.codedex.action.GenerateCopyConstructorAction"
+                text="Deep Copy Constructor">
+            <add-to-group group-id="JavaGenerateGroup1" anchor="after" relative-to-action="GenerateConstructor"/>
+        </action>
     </actions>
 </idea-plugin>

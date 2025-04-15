@@ -1,5 +1,6 @@
 package com.github.qdexlab.codedex.action;
 
+import com.github.qdexlab.codedex.utils.ClassMemberUtils;
 import com.github.qdexlab.codedex.utils.PsiTypeUtils;
 import com.intellij.codeInsight.generation.ClassMember;
 import com.intellij.codeInsight.generation.GenerateMembersHandlerBase;
@@ -12,11 +13,9 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiElementFactory;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiMethod;
-import com.intellij.psi.PsiModifier;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.intellij.util.IncorrectOperationException;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class GenerateEnumConverterHandler extends GenerateMembersHandlerBase {
@@ -28,14 +27,7 @@ public class GenerateEnumConverterHandler extends GenerateMembersHandlerBase {
 
     @Override
     protected ClassMember[] getAllOriginalMembers(PsiClass aClass) {
-        PsiField[] fields = aClass.getFields();
-        ArrayList<ClassMember> array = new ArrayList<>();
-        for (PsiField field : fields) {
-            if (field.hasModifierProperty(PsiModifier.STATIC)) continue;
-
-            array.add(new PsiFieldMember(field));
-        }
-        return array.toArray(ClassMember.EMPTY_ARRAY);
+        return ClassMemberUtils.getFieldClassMember(aClass);
     }
 
     @Override
@@ -44,7 +36,7 @@ public class GenerateEnumConverterHandler extends GenerateMembersHandlerBase {
         aClass = Optional.ofNullable(PsiTreeUtil.getParentOfType(psiField, PsiClass.class)).orElse(aClass);
         String className = aClass.getName();
         String filedName = psiField.getName();
-        String fieldType = PsiTypeUtils.getBoxedTypeName(psiField.getType());
+        String fieldType = PsiTypeUtils.boxIfPossible(psiField.getType());
         String upperCaseFieldName = StringUtil.toUpperCase(filedName);
         String javaBeanFieldName = StringUtil.capitalizeWithJavaBeanConvention(filedName);
 
