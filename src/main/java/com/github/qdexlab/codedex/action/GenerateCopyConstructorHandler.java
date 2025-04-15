@@ -4,7 +4,6 @@ import com.github.qdexlab.codedex.utils.ClassMemberUtils;
 import com.github.qdexlab.codedex.utils.PsiTypeUtils;
 import com.github.qdexlab.codedex.utils.PsiUtils;
 import com.intellij.codeInsight.generation.ClassMember;
-import com.intellij.codeInsight.generation.GenerateMembersHandlerBase;
 import com.intellij.codeInsight.generation.GenerationInfo;
 import com.intellij.codeInsight.generation.PsiFieldMember;
 import com.intellij.codeInsight.generation.PsiGenerationInfo;
@@ -22,23 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class GenerateCopyConstructorHandler  extends GenerateMembersHandlerBase {
-    public GenerateCopyConstructorHandler() {
-        // do not use chooser
-        super("");
-    }
-
-    @Override
-    protected ClassMember[] getAllOriginalMembers(PsiClass aClass) {
-        // do not use
-        return ClassMember.EMPTY_ARRAY;
-    }
-
-    @Override
-    protected GenerationInfo[] generateMemberPrototypes(PsiClass aClass, ClassMember originalMember) throws IncorrectOperationException {
-        // do not use
-        return GenerationInfo.EMPTY_ARRAY;
-    }
+public class GenerateCopyConstructorHandler extends GenerateNonChooserMembersHandlerBase {
 
     @Override
     protected ClassMember @Nullable [] chooseOriginalMembers(PsiClass aClass, Project project, Editor editor) {
