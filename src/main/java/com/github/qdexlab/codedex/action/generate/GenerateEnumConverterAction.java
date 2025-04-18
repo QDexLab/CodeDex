@@ -1,4 +1,4 @@
-package com.github.qdexlab.codedex.action;
+package com.github.qdexlab.codedex.action.generate;
 
 import com.intellij.codeInsight.generation.actions.BaseGenerateAction;
 import com.intellij.openapi.project.DumbAware;

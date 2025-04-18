@@ -1,4 +1,4 @@
-package com.github.qdexlab.codedex.action;
+package com.github.qdexlab.codedex.action.generate;
 
 import com.github.qdexlab.codedex.utils.ClassMemberUtils;
 import com.github.qdexlab.codedex.utils.PsiTypeUtils;
