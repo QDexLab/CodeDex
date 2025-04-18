@@ -25,7 +25,12 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <intentionAction>
+            <className>com.github.qdexlab.codedex.intention.CallAllSetterIntention</className>
+            <language>JAVA</language>
+            <category>Java</category>
+            <skipBeforeAfter/>
+        </intentionAction>
     </extensions>
     <actions>
         <action id="com.github.qdexlab.codedex.action.GenerateEnumConverterAction"
